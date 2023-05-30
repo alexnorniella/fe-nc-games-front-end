@@ -9,3 +9,14 @@ export const fetchReviews = () => {
         return data.data.reviews
     })
 } 
+
+
+export const fetchSingleReview = ( review_id ) => {
+
+    return ncGamesApi.get(`/reviews/${ review_id }`).then((response) => {
+  
+      return response.data;
+  
+    });
+  
+  };
