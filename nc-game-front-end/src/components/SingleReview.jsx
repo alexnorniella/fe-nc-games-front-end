@@ -1,22 +1,23 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchSingleReview } from "../api";
+import { fetchSingleReview} from "../api";
 import { useParams } from "react-router-dom";
+import CommentsByReview from "./CommentsByReview";
+
 
 const SingleReview = () => {
   const { review_id } = useParams();
 
   const [singleReview, setSingleReview] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  
   useEffect(() => {
     setIsLoading(true);
     fetchSingleReview(review_id).then((response) => {
-      console.log(response);
-      setSingleReview(response.review);
-      setIsLoading(false);
-    });
-  }, []);
+        setSingleReview(response.review);
+        setIsLoading(false);
+      });
+    }, [])
 
   return (
     <div>
@@ -30,6 +31,9 @@ const SingleReview = () => {
           <h3 className="SingleReviewAuthor">{singleReview.author}</h3>
           <img className="SingleReviewImg" 
           src={singleReview.review_img_url} />
+
+          <CommentsByReview review_id = {review_id}/> 
+          
         </div>
       )}
     </div>
