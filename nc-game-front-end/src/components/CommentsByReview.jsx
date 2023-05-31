@@ -15,6 +15,7 @@ const CommentsByReview = ({ review_id }) => {
     });
   }, []);
 
+
   if (isLoading) {
     return <p className="Loading">Loading Comments......</p>;
   }
@@ -25,7 +26,7 @@ const CommentsByReview = ({ review_id }) => {
         <p> no comments avaliable</p>
       ) : (
         comments.map((comment) => {
-          return <CommentCard comment={comment} />;
+          return <CommentCard key={comment.comment_id} comment={comment} />;
         })
       )}
       
