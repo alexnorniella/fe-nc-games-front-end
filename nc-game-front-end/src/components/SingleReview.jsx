@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchSingleReview } from "../api";
 import { useParams } from "react-router-dom";
+import CommentsByReview from "./CommentsByReview";
+import { format } from "date-fns";
 
 const SingleReview = () => {
   const { review_id } = useParams();
@@ -12,7 +14,6 @@ const SingleReview = () => {
   useEffect(() => {
     setIsLoading(true);
     fetchSingleReview(review_id).then((response) => {
-      console.log(response);
       setSingleReview(response.review);
       setIsLoading(false);
     });
@@ -25,11 +26,16 @@ const SingleReview = () => {
       ) : (
         <div>
           <h2 className="SingleReviewPageTitle">{singleReview.title} </h2>
-          <h4 className="CreatedAt">{singleReview.created_at}</h4>
+          <h4 className="CreatedAt">
+            {format(new Date(singleReview.created_at), "dd/MM/yyyy")}
+          </h4>
 
           <h3 className="SingleReviewAuthor">{singleReview.author}</h3>
-          <img className="SingleReviewImg" 
-          src={singleReview.review_img_url} />
+          <img className="SingleReviewImg"
+          alt={`A picture of ${singleReview.designer} game`}
+           src={singleReview.review_img_url} />
+
+          <CommentsByReview review_id={review_id} />
         </div>
       )}
     </div>

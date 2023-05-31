@@ -8,7 +8,7 @@ const ReviewCard = ({ review }) => {
       <Link to={`/reviews/${review.review_id}`}>
         <img
           className="ReviewCardThumbnails"
-          altText={`A picture of ${review.designer} game`}
+          alt={`A picture of ${review.designer} game`}
           src={review.review_img_url}
         />
       </Link>
