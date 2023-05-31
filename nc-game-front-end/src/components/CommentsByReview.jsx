@@ -4,8 +4,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 
-const CommentsByReview = ({review_id}) => {
-
+const CommentsByReview = ({ review_id }) => {
   const [comments, setComments] = useState();
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -22,10 +21,14 @@ const CommentsByReview = ({review_id}) => {
 
   return (
     <div className="CommentGroup">
-      {comments.map((comment) => {
-        return <CommentCard comment={comment} />;
-      })}
-      ;
+      {comments.length === 0 ? (
+        <p> no comments avaliable</p>
+      ) : (
+        comments.map((comment) => {
+          return <CommentCard comment={comment} />;
+        })
+      )}
+      
     </div>
   );
 };

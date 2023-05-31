@@ -24,7 +24,7 @@ export const fetchSingleReview = ( review_id ) => {
   export const fetchCommentsById = (review_id) => {
 
     return ncGamesApi.get(`/reviews/${ review_id }/comments`).then((response) => {
-     
+     console.log(response,'data')
       return response.data.comments
   
     });
