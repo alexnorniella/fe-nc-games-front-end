@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchSingleReview } from "../api";
 import { useParams } from "react-router-dom";
@@ -13,7 +12,8 @@ const SingleReview = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [votes, setVotes] = useState(0);
   const [hasVoted, setHasVoted] = useState(false);
- 
+  const [message, setMessage] = useState(null);
+
   useEffect(() => {
     setIsLoading(true);
     fetchSingleReview(review_id).then((response) => {
@@ -24,23 +24,33 @@ const SingleReview = () => {
   }, []);
 
   const downVote = (review_id) => {
+    setMessage(null);
     setVotes(votes - 1);
     setHasVoted(true);
-    patchVotes(review_id, -1).catch((err) => {
-      console.log(err);
-      setVotes((currVotes) => currVotes + 1);
-      setHasVoted(false);
-    });
+    patchVotes(review_id, -1)
+      .then(() => {
+        setMessage("Your vote has been counted");
+      })
+      .catch((err) => {
+        setMessage("WOOOPS");
+        setVotes((currVotes) => currVotes + 1);
+        setHasVoted(false);
+      });
   };
 
   const upVote = (review_id) => {
+    setMessage(null);
     setVotes(votes + 1);
     setHasVoted(true);
-    patchVotes(review_id, 1).catch((err) => {
-      console.log(err);
-      setVotes((currVotes) => currVotes - 1);
-      setHasVoted(false);
-    });
+    patchVotes(review_id, 1)
+      .then(() => {
+        setMessage("Your vote has been counted");
+      })
+      .catch((err) => {
+        setMessage("WOOOPS");
+        setVotes((currVotes) => currVotes - 1);
+        setHasVoted(false);
+      });
   };
 
   return (
@@ -49,6 +59,7 @@ const SingleReview = () => {
         <p>Loading Review...</p>
       ) : (
         <div>
+          {message !== null ? <p>{message}</p> : null}
           <h2 className="SingleReviewPageTitle">{singleReview.title} </h2>
           <h4 className="CreatedAt">
             {format(new Date(singleReview.created_at), "dd/MM/yyyy")}
