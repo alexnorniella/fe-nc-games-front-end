@@ -24,9 +24,31 @@ export const fetchSingleReview = ( review_id ) => {
   export const fetchCommentsById = (review_id) => {
 
     return ncGamesApi.get(`/reviews/${ review_id }/comments`).then((response) => {
-     console.log(response,'data')
+
       return response.data.comments
   
     });
   
   };
+
+  export const fetchUsers = () => {
+
+    return ncGamesApi.get(`/users`).then((response) => {
+     console.log(response,'data') //need to check 
+      return response.data.users
+    });
+  
+  };
+
+
+  export const patchVotes = (review_id, increment) => {
+    const patchBody = {
+      inc_votes: increment
+    };
+    return ncGamesApi.patch(`/reviews/${review_id }`,patchBody).then((response)=>{
+     return response.data.updatedReview.votes
+    })
+
+  }
+
+
